@@ -21,4 +21,6 @@ jobs:
 
       - name: test
         run: python test.py
+        env :
+          COMMIT_TIMESTAMP: ${{ github.event.head_commit.timestamp}}
 
