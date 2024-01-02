@@ -2,4 +2,8 @@ import os
 import datetime
 
 print(os.environ["GITHUB_ACTIONS"])
-print(datetime.datetime.fromisoformat(os.environ["COMMIT_TIMESTAMP"]))
+dt = datetime.datetime.fromisoformat(os.environ["COMMIT_TIMESTAMP"])
+print(dt.year)
+print(dt.month)
+print(dt.day)
+print(dt.hour)
