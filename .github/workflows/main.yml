@@ -12,7 +12,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: test
-        run: echo ${{ github.ref }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          architecture: x86
+          python-version: 3.8
+
+      - name: test
+        run: python test.py
 
