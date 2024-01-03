@@ -14,8 +14,8 @@ jobs:
 
 
       - name: set tag name
-      run: |
-        echo "TAG_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: |
+          echo "TAG_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: show tag varibles
         run: echo ${TAG_NAME}
