@@ -12,10 +12,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-
-      - name: set tag name
+      - name: get tag name
+        run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: echo tag name
         run: |
-          echo "TAG_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-
-      - name: show tag varibles
-        run: echo ${TAG_NAME}
+          echo "${TAG_NAME}"
+          echo "${{ env.TAG_NAME }}"
