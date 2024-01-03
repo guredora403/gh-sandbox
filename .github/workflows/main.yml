@@ -19,6 +19,6 @@ jobs:
         shell: python
         run: |
           import os
-          import glob
-          print(os.getcwd())
-          print(glob.glob(""))
+          import sys
+          sys.path.append(os.getcwd())
+          import my_test
