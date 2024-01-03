@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: get tag name
-        run: echo $GITHUB_REF -replace 'refs/tags/', '') >> $GITHUB_ENV
+        run: echo TAG_NAME=$($GITHUB_REF -replace 'refs/tags/', '') >> $GITHUB_ENV
 
       - name: echo tag name
         run: |
