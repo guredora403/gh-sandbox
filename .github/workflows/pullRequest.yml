@@ -8,19 +8,25 @@ on:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/stackexchange/dnscontrol:latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: setup DNS control
+        run: |
+          cd $PWD
+          wget -q https://github.com/StackExchange/dnscontrol/releases/download/v4.8.2/dnscontrol_4.8.2_linux_amd64.tar.gz
+          tar -zxvf dnscontrol_4.8.2_linux_amd64.tar.gz
+          chmod +x dnscontrol
+
       - name: errorCheck
-        run: dnscontrol check
+        run: ./dnscontrol  --no-colors=true check
 
       - name: preview
-        run: |
-          dnscontrol preview | tee "preview.txt"
+        run: ./dnscontrol --no-colors=true preview | tee preview_result.txt
 
-      - name: Preview pull request comment
-        run: gh pr comment -F "preview.txt"
+      - name: comment_preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ( echo '```' && cat preview_result.txt && echo '```' ) | gh pr comment ${{ github.event.pull_request.number }} -F -

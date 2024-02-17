@@ -11,5 +11,6 @@ DEFAULTS(
 );
 
 D("example.com", REG_NONE, DnsProvider(DNS_BIND),
-    A("@", "192.168.0.1")
+    A("@", "192.168.0.1"),
+    A("home", "192.168.0.3")
 );
