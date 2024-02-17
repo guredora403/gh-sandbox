@@ -1,0 +1,40 @@
+name: check for pull request into master
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/stackexchange/dnscontrol:latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: errorCheck
+        run: dnscontrol check
+
+      - name: preview
+        id: preview
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "result<<$EOF" >> "$GITHUB_OUTPUT"
+          dnscontrol preview | tee -a "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Preview pull request comment
+        uses: unsplash/comment-on-pr@v1.3.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: |
+            dnscontrol preview result:
+            ```
+            ${{ steps.preview.outputs.result }}
+            ```
+          check_for_duplicate_msg: true
+
