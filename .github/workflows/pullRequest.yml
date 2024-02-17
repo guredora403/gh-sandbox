@@ -24,3 +24,4 @@ jobs:
 
       - name: Preview pull request comment
         run: gh pr comment -F "preview.txt"
+        shell: bash
