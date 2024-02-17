@@ -21,10 +21,10 @@ jobs:
           chmod +x dnscontrol
 
       - name: errorCheck
-        run: ./dnscontrol check --no-colors=true
+        run: ./dnscontrol  --no-colors=true check
 
       - name: preview
-        run: ./dnscontrol preview --no-colors=true | tee preview_result.txt
+        run: ./dnscontrol --no-colors=true preview | tee preview_result.txt
 
       - name: comment_preview
         env:
