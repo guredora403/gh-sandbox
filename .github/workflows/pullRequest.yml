@@ -24,7 +24,9 @@ jobs:
         run: ./dnscontrol check
 
       - name: preview
-        run: ./dnscontrol preview > preview_result.txt
+        run: ./dnscontrol preview | tee preview_result.txt
 
       - name: comment_preview
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: gh pr comment -F preview_result.txt
