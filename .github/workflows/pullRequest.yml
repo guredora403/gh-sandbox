@@ -25,12 +25,4 @@ jobs:
           args: preview
 
       - name: comment_preview
-        uses: unsplash/comment-on-pr@v1.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: |
-            ```
-            ${{ steps.dnscontrol_preview.outputs.preview_comment }}
-            ```
-          check_for_duplicate_msg: true
+        run: gh pr comment -B "${{ steps.dnscontrol_preview.outputs.preview_comment }}"
