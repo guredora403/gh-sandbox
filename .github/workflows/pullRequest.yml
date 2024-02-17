@@ -8,22 +8,29 @@ on:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/stackexchange/dnscontrol:latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: errorCheck
-        run: dnscontrol check
+        uses: koenrh/dnscontrol-action@v3
+        with:
+          args: check
 
       - name: preview
-        run: |
-          dnscontrol preview | tee "preview.txt"
-
-      - name: Preview pull request comment
-        uses: thollander/actions-comment-pull-request@v2
+        uses: koenrh/dnscontrol-action@v3
+        id: dnscontrol_preview
         with:
-          message: |
-            Hello world ! :wave:        
+          args: preview
+
+      - name: comment_preview
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: |
+            ```
+            ${{ steps.dnscontrol_preview.outputs.preview_comment }}
+            ```
+          check_for_duplicate_msg: true
