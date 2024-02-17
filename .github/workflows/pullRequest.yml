@@ -13,16 +13,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: setup DNS control
+        run: |
+          wget https://github.com/StackExchange/dnscontrol/releases/download/v4.8.2/dnscontrol_4.8.2_linux_amd64.tar.gz
+          tar -zxvf dnscontrol_4.8.2_linux_amd64.tar.gz
+          chmod +x dnscontrol
+
       - name: errorCheck
-        uses: koenrh/dnscontrol-action@v3
-        with:
-          args: check
+        run: dnscontrol check
 
       - name: preview
-        uses: koenrh/dnscontrol-action@v3
-        id: dnscontrol_preview
-        with:
-          args: preview
+        run: dnscontrol preview > preview_result.txt
 
       - name: comment_preview
-        run: gh pr comment -B "${{ steps.dnscontrol_preview.outputs.preview_comment }}"
+        run: gh pr comment -F preview_result.txt
