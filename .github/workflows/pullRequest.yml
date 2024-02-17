@@ -19,13 +19,12 @@ jobs:
           wget -q https://github.com/StackExchange/dnscontrol/releases/download/v4.8.2/dnscontrol_4.8.2_linux_amd64.tar.gz
           tar -zxvf dnscontrol_4.8.2_linux_amd64.tar.gz
           chmod +x dnscontrol
-          ls -l
 
       - name: errorCheck
-        run: dnscontrol check
+        run: ./dnscontrol check
 
       - name: preview
-        run: dnscontrol preview > preview_result.txt
+        run: ./dnscontrol preview > preview_result.txt
 
       - name: comment_preview
         run: gh pr comment -F preview_result.txt
