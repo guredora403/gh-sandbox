@@ -8,18 +8,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/stackexchange/dnscontrol:latest
+    env:
+      test: ${{ secrets.TEST_SECRET }}
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: setup DNS control
+        run: |
+          cd $PWD
+          wget -q https://github.com/StackExchange/dnscontrol/releases/download/v4.8.2/dnscontrol_4.8.2_linux_amd64.tar.gz
+          tar -zxvf dnscontrol_4.8.2_linux_amd64.tar.gz
+          chmod +x dnscontrol
+
       - name: ErrorCheck
-        run: dnscontrol check
+        run: ./dnscontrol --no-colors=true check
 
       - name: Deploy
-        run: dnscontrol push
+        run: ./dnscontrol--no-colors=true push
 
   error_notify:
     runs-on: ubuntu-latest

@@ -8,6 +8,8 @@ on:
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      test: ${{ secrets.TEST_SECRET }}
     container:
       image: ghcr.io/stackexchange/dnscontrol:latest
 
@@ -21,7 +23,3 @@ jobs:
       - name: preview
         run: |
           dnscontrol preview | tee "preview.txt"
-
-      - name: Preview pull request comment
-        run: gh pr comment -F "preview.txt"
-        shell: bash
